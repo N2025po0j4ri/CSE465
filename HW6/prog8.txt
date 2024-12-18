@@ -1,0 +1,7 @@
+A=TRUE
+
+A=FALSE
+
+A=FALSE
+
+A="TRUE"
