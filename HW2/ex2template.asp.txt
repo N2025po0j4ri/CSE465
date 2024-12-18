@@ -1,0 +1,98 @@
+person(al).
+person(andrew).
+person(ben).
+person(carmen).
+person(dan).
+person(damaris).
+person(ethan).
+person(frank).
+person(jessica).
+person(lucas).
+person(mary).
+person(melinda).
+person(monica).
+person(tina).
+person(timothy).
+person(saul).
+
+gender(female).
+gender(non_binary).
+gender(male).
+
+gender_of(carmen, female).
+gender_of(damaris, female).
+gender_of(jessica, female).
+gender_of(mary, female).
+gender_of(monica, female).
+gender_of(melinda, female).
+gender_of(tina, female).
+
+gender_of(al, non_binary).
+
+gender_of(andrew, male).
+gender_of(ben, male).
+gender_of(dan, male).
+gender_of(ethan, male).
+gender_of(frank, male).
+gender_of(lucas, male).
+gender_of(timothy, male).
+gender_of(saul, male).
+
+mother(jessica, mary).
+father(lucas, mary).
+
+mother(tina, saul).
+father(timothy, saul).
+
+mother(mary, andrew).
+mother(mary, damaris).
+mother(mary, ben).
+father(saul, andrew).
+father(saul, damaris).
+father(saul, ben).
+
+mother(jessica, monica).
+father(lucas, monica).
+
+mother(monica, carmen).
+mother(monica, al).
+mother(monica, ethan).
+father(dan, carmen).
+father(dan, al).
+father(dan, ethan).
+
+mother(melinda, frank).
+father(dan, frank).
+
+% ---------------------------------------------------
+% You are allowed to introduce new predicates
+% including predicates and rules we wrote in class
+
+% ---------------------------------------------------
+
+% TODO:
+% grandmother(X, Y) – X is a grandmother of Y
+
+% TODO:
+% nephew(X, Y) – X is a nephew of Y, i.e., X is a son of Y’s sibling
+
+% TODO:
+% full_sibling(X, Y) – X is a full sibling of Y, 
+%                      i.e., X has the same two parents as Y
+
+% TODO:
+% half_sibling(X, Y) – X is a half sibling of Y, 
+%                      i.e., X has one parent in common with Y but not the other
+
+% TODO:
+% cousin(X, Y) – X is a first-degree cousin of Y
+
+
+% ---------------------------------------------------
+
+% Uncomment one or more of the lines below to filter the output
+% #show grandmother/2.
+% #show nephew/2.
+% #show full_sibling/2.
+% #show half_sibling/2.
+% #show cousin/2.

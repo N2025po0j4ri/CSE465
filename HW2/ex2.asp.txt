@@ -1,0 +1,128 @@
+% Define persons
+person(al).
+person(andrew).
+person(ben).
+person(carmen).
+person(dan).
+person(damaris).
+person(ethan).
+person(frank).
+person(jessica).
+person(lucas).
+person(mary).
+person(melinda).
+person(monica).
+person(tina).
+person(timothy).
+person(saul).
+
+% Define genders
+gender(female).
+gender(non_binary).
+gender(male).
+
+% Define gender of persons
+gender_of(carmen, female).
+gender_of(damaris, female).
+gender_of(jessica, female).
+gender_of(mary, female).
+gender_of(monica, female).
+gender_of(melinda, female).
+gender_of(tina, female).
+
+gender_of(al, non_binary).
+
+gender_of(andrew, male).
+gender_of(ben, male).
+gender_of(dan, male).
+gender_of(ethan, male).
+gender_of(frank, male).
+gender_of(lucas, male).
+gender_of(timothy, male).
+gender_of(saul, male).
+
+% Define parent relationships
+mother(jessica, mary).
+father(lucas, mary).
+
+mother(tina, saul).
+father(timothy, saul).
+
+mother(mary, andrew).
+mother(mary, damaris).
+mother(mary, ben).
+father(saul, andrew).
+father(saul, damaris).
+father(saul, ben).
+
+mother(jessica, monica).
+father(lucas, monica).
+
+mother(monica, carmen).
+mother(monica, al).
+mother(monica, ethan).
+father(dan, carmen).
+father(dan, al).
+father(dan, ethan).
+
+mother(melinda, frank).
+father(dan, frank).
+
+% Define parent rule (both mother and father)
+parent(X, Y) :- mother(X, Y).
+parent(X, Y) :- father(X, Y).
+
+sibling(X, Y) :- parent(P, X), parent(P, Y), X != Y.
+
+full_sibling(X, Y) :- sibling(X, Y), mother(M, X), mother(M, Y), father(F, X), father(F, Y).
+
+% Define half sibling rule
+half_sibling(X, Y) :- parent(M, X), parent(M, Y), parent(F, X), not parent(F, Y), X != Y.
+half_sibling(X, Y) :- parent(F, X), parent(F, Y), parent(M, X), not parent(M, Y), X != Y.
+
+% Define uncle rule
+uncle(X, Y) :- sibling(X, Z), parent(Z, Y), gender_of(X, male).
+
+% Define aunt rule
+aunt(X, Y) :- sibling(X, Z), parent(Z, Y), gender_of(X, female).
+
+% ---------------------------------------------------
+% You are allowed to introduce new predicates
+% including predicates and rules we wrote in class
+% Uncomment one or more of the lines below to filter the output
+% ---------------------------------------------------
+
+% TODO:
+% grandmother(X, Y) - X is a grandmother of Y
+grandmother(X, Y) :- mother(X, Z), parent(Z, Y).
+
+
+% TODO:
+% nephew(X, Y) - X is a nephew of Y, i.e., X is a son of Y's sibling
+nephew(X, Y) :- gender_of(X, male), sibling(Y, Z), parent(Z, X).
+
+
+% TODO:
+% full_sibling(X, Y) - X is a full sibling of Y, 
+%                      i.e., X has the same two parents as Y
+full_sibling(X, Y) :- sibling(X, Y), mother(M, X), father(F, X), mother(M, Y), father(F, Y).
+
+
+% TODO:
+% half_sibling(X, Y) - X is a half sibling of Y, 
+%                      i.e., X has one parent in common with Y but not the other
+half_sibling(X, Y) :- parent(M, X), parent(M, Y), parent(F, X), not parent(F, Y), X != Y.
+half_sibling(X, Y) :- parent(F, X), parent(F, Y), parent(M, X), not parent(M, Y), X != Y.
+
+
+% TODO:
+% cousin(X, Y) - X is a first-degree cousin of Y
+cousin(X, Y) :- parent(P1, X), parent(P2, Y), sibling(P1, P2).
+
+% ---------------------------------------------------
+
+#show grandmother/2.
+#show nephew/2.
+#show full_sibling/2.
+#show half_sibling/2.
+#show cousin/2.
