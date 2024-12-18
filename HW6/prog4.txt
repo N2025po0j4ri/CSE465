@@ -1,7 +1,0 @@
-a=31
-
-b=55
-
-a="helloworld"
-
-b="world"
