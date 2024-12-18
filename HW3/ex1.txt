@@ -1,0 +1,78 @@
+% Run using the command:
+% clingo ex1.txt
+
+person(lisa).
+person(mark).
+person(robbie).
+person(sally).
+
+hobby(gardening).
+hobby(guitar).
+hobby(painting).
+hobby(photography).
+
+score(9).
+score(16).
+score(23).
+score(30).
+
+% We will be using the following predicates to construct the solution
+%   has_hobby(P, H) - person P has hobby H
+%   has_score(P, S) - person C has score S
+
+% ------------------
+% GENERATE CANDIDATE SOLUTIONS
+
+% TODO: write rules to say that:
+% - there is a one-to-one correspondence between family members and hobbies
+%   (use predicated has_hobby)
+%   (i.e., each person has exactly one hobby and
+%    each hobby is associated with exactly one person)
+%
+%  - there is a one-to-one correspondence between family members and scores
+%   (use predicated has_score)
+
+1 {has_hobby(P, H) : person(P)} 1 :- hobby(H).
+1 {has_hobby(P, H) : hobby(H)} 1 :- person(P).
+
+1 {has_score(P, S) : person(P)} 1 :- score(S).
+1 {has_score(P, S) : score(S)} 1 :- person(P).
+
+% ------------------
+% TEST
+% Use the relations has_hobby/2 and has_score/2 from the comments above
+
+% 1. Robbie either loves gardening or painting.
+% TODO - encode this hint
+
+has_hobby(robbie, gardening) | has_hobby(robbie, painting).
+
+% 2. Mark either scored 30 points or loves gardening.
+% TODO - encode this hint
+
+has_score(mark, 30) | has_hobby(mark, gardening).
+
+% 3. Lisa’s hobby is painting.
+% TODO - encode this hint
+
+has_hobby(lisa, painting). 
+
+% 4. Mark’s hobby is playing guitar.
+% TODO - encode this hint
+
+has_hobby(mark, guitar).
+
+% 5. The painter scored 14 more points than Sally.
+% TODO - encode this hint
+% Rephrase it as "It is impossible for the painter not to 
+%    have scored 14 more points than Sally."
+
+:- has_hobby(X, painting), has_score(X, Y), has_score(sally, Z), Y != Z + 14.
+
+% ------------------
+% DISPLAY
+solution(P, H, S) :- has_hobby(P, H), has_score(P, S).
+
+#show solution/3.
+%#show has_hobby/2.
+%#show has_score/2.

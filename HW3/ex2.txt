@@ -1,0 +1,65 @@
+#const n=6.
+
+person(1..n).
+chair(1..n).
+
+% -----------------------------------------------------
+% Test problem
+
+married(1, 2).
+married(3, 4).
+
+dislikes(1, 3).
+dislikes(1, 4).
+dislikes(1, 5).
+dislikes(2, 4).
+dislikes(2, 5).
+dislikes(2, 6).
+dislikes(3, 5).
+dislikes(3, 6).
+
+% End of test problem
+% -----------------------------------------------------
+
+% Instructions:
+
+% Use the predicate assigned(P, C) to say that person P is assigned to chair number C
+
+% Symmetric relationship for married
+married(X, Y) :- married(Y, X).
+
+
+% Define adjacent chairs in a circular arrangement
+adjacent(C1, C2) :- chair(C1), chair(C2), C1 = 1, C2 = n.
+adjacent(C1, C2) :- chair(C1), chair(C2), C1 = n, C2 = 1.
+adjacent(C1, C2) :- chair(C1), chair(C2), C1 = C2 - 1.
+adjacent(C1, C2) :- chair(C1), chair(C2), C1 = C2 + 1.
+
+
+%%% GENERATE candidate solutions
+% Each person is assigned to exactly one chair
+1 { assigned(P, C) : chair(C) } 1 :- person(P).
+% Each chair is assigned to exactly one person
+1 { assigned(P, C) : person(P) } 1 :- chair(C).
+
+%%% TEST whether a candidate solution is a real solution or not
+% Married couples must sit next to each other
+:- married(P1, P2), assigned(P1, C1), assigned(P2, C2), not adjacent(C1, C2).
+
+% People who dislike each other must not sit next to each other
+:- dislikes(P1, P2), assigned(P1, C1), assigned(P2, C2), adjacent(C1, C2).
+
+% -----------------------------------------------------
+% For easy display
+
+% solution(P1, P2, P3, P4, P5, P6) says that person P1 sits on chair 1, P2 on chair 2, etc.
+
+solution(P1, P2, P3, P4, P5, P6) :- assigned(P1, 1), 
+                                    assigned(P2, 2), 
+                                    assigned(P3, 3), 
+                                    assigned(P4, 4), 
+                                    assigned(P5, 5), 
+                                    assigned(P6, 6).
+
+#show solution/6.
+%#show assigned/2.
